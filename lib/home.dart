@@ -51,6 +51,7 @@ class _homeState extends State<home> {
                 controller: controller,
                 autofocus: true,
                 decoration: InputDecoration(
+                  hintText: 'enter email e.g fayis@gmail.com',
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
                 ),
@@ -82,6 +83,7 @@ class _homeState extends State<home> {
             Padding(
               padding: EdgeInsets.only(left: 25.w),
               child: TextFormField(
+
                 obscureText: true,
                 style: TextStyle(
                   color: Color(0xFF181725),
@@ -92,6 +94,9 @@ class _homeState extends State<home> {
                 controller: controller1,
                 autofocus: true,
                 decoration: InputDecoration(
+
+
+
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
                 ),
