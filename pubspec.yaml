@@ -38,6 +38,9 @@ dependencies:
   flutter_screenutil:
   firebase_core:
   firebase_auth: 
+  fluttertoast:
+  flutter_otp_text_field:
+  google_sign_in:
 
 
 dev_dependencies:

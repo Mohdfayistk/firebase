@@ -1,17 +1,29 @@
+
+import 'package:firebase/phone%20login.dart';
+import 'package:firebase/toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class home1 extends StatefulWidget {
-  const home1({Key? key}) : super(key: key);
+import 'home.dart';
+
+class signup extends StatefulWidget {
+  const signup({Key? key}) : super(key: key);
 
   @override
-  State<home1> createState() => _home1State();
+  State<signup> createState() => _signupState();
 }
 
-TextEditingController controller = TextEditingController();
-TextEditingController controller1 = TextEditingController();
+TextEditingController email = TextEditingController();
+TextEditingController password = TextEditingController();
+FirebaseAuth auth = FirebaseAuth.instance;
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  // Optional clientId
+  // clientId: 'your-client_id.apps.googleusercontent.com',
 
-class _home1State extends State<home1> {
+);
+class _signupState extends State<signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +58,7 @@ class _home1State extends State<home1> {
                   fontFamily: 'Gilroy-Medium',
                   fontWeight: FontWeight.w400,
                 ),
-                controller: controller,
+                controller: email,
                 autofocus: true,
                 decoration: InputDecoration(
                   focusedBorder: InputBorder.none,
@@ -87,7 +99,7 @@ class _home1State extends State<home1> {
                   fontFamily: 'Gilroy-Medium',
                   fontWeight: FontWeight.w400,
                 ),
-                controller: controller1,
+                controller: password,
                 autofocus: true,
                 decoration: InputDecoration(
                   focusedBorder: InputBorder.none,
@@ -105,24 +117,35 @@ class _home1State extends State<home1> {
             ),
             Padding(
               padding: EdgeInsets.only(left: 25.w),
-              child: Container(
-                width: 364.w,
-                height: 67.h,
-                decoration: ShapeDecoration(
-                  color: Colors.brown,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(19),
+              child: GestureDetector(onTap: (){
+                auth
+                    .createUserWithEmailAndPassword(
+                    email: email.text, password: password.text)
+                    .then((value) => {
+                  ToastMessage().toastmessage(message: 'Successfully registerd')
+                })
+                    .onError((error, stackTrace) => ToastMessage()
+                    .toastmessage(message: error.toString()));
+              },
+                child: Container(
+                  width: 364.w,
+                  height: 67.h,
+                  decoration: ShapeDecoration(
+                    color: Colors.brown,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(19),
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Sign up',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFFFFF9FF),
-                      fontSize: 18.sp,
-                      fontFamily: 'Gilroy',
-                      fontWeight: FontWeight.w600,
+                  child: Center(
+                    child: Text(
+                      'Sign up',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFFFFF9FF),
+                        fontSize: 18.sp,
+                        fontFamily: 'Gilroy',
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -136,18 +159,35 @@ class _home1State extends State<home1> {
                 SizedBox(
                   width: 140.w,
                 ),
-                CircleAvatar(
-                  radius: 25.r,
-                  backgroundColor: Colors.white,
-                  child: Image.asset("assets/1.png"),
+                GestureDetector(onTap: (){
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => phonelogin()));
+                },
+                  child: CircleAvatar(
+                    radius: 25.r,
+                    backgroundColor: Colors.white,
+                    child: Image.asset("assets/1.png"),
+                  ),
                 ),
                 SizedBox(
                   width: 40.w,
                 ),
-                CircleAvatar(
-                  radius: 25.r,
-                  backgroundColor: Colors.white,
-                  child: Image.asset("assets/2.png"),
+                GestureDetector(onTap: ()async {
+
+
+
+                      await _googleSignIn.signIn().then((value) =>  Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (_) => home()))).onError((error, stackTrace) => ToastMessage()
+                          .toastmessage(message: error.toString()));
+
+
+
+                },
+                  child: CircleAvatar(
+                    radius: 25.r,
+                    backgroundColor: Colors.white,
+                    child: Image.asset("assets/2.png"),
+                  ),
                 ),
               ],
             ),
