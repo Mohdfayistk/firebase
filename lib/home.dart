@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,8 +11,9 @@ class home extends StatefulWidget {
   State<home> createState() => _homeState();
 }
 
-TextEditingController text = TextEditingController();
-
+TextEditingController text1 = TextEditingController();
+final firestore = FirebaseFirestore.instance.collection('Post');
+FirebaseAuth auth = FirebaseAuth.instance;
 class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class _homeState extends State<home> {
             fontFamily: 'Gilroy-Medium',
             fontWeight: FontWeight.w600,
           ),
-          controller: text,
+          controller: text1,
           autofocus: true,
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
@@ -42,24 +46,35 @@ class _homeState extends State<home> {
     ),
           SizedBox(height: 50.h,),
           Center(
-            child: Container(
-              width: 320.w,
-              height: 67.h,
-              decoration: ShapeDecoration(
-                color: Colors.brown,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(19),
+            child: GestureDetector(onTap: (){
+              final id = DateTime.now().microsecondsSinceEpoch.toString();
+              firestore
+                  .doc(id)
+                  .set({'title': text1.text, 'id': id})
+                  .then((value) =>
+              {ToastMessage().toastmessage(message: 'Post Added')})
+                  .onError((error, stackTrace) =>
+                  ToastMessage().toastmessage(message: error.toString()));
+            },
+              child: Container(
+                width: 320.w,
+                height: 67.h,
+                decoration: ShapeDecoration(
+                  color: Colors.brown,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(19),
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text(
-                  'Post',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFFFFF9FF),
-                    fontSize: 18.sp,
-                    fontFamily: 'Gilroy',
-                    fontWeight: FontWeight.w600,
+                child: Center(
+                  child: Text(
+                    'Post',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFFFFF9FF),
+                      fontSize: 18.sp,
+                      fontFamily: 'Gilroy',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),

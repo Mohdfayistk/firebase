@@ -38,9 +38,10 @@ dependencies:
   flutter_screenutil:
   firebase_core:
   firebase_auth: 
-  fluttertoast:
-  flutter_otp_text_field:
+  fluttertoast: ^8.2.4
   google_sign_in:
+  cloud_firestore:
+  flutter_otp_text_field: ^1.1.1
 
 
 dev_dependencies:
