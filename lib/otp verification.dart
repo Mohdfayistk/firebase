@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'home.dart';
+import 'firestore.dart';
 class otpverification extends StatefulWidget {
    final   String  vericationid;
   const otpverification({Key? key,required this.vericationid}) : super(key: key);

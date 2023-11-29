@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'home.dart';
+import 'firestore.dart';
 
 class signup extends StatefulWidget {
   const signup({Key? key}) : super(key: key);

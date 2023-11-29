@@ -1,4 +1,4 @@
-import 'package:firebase/home.dart';
+import 'package:firebase/firestore.dart';
 import 'package:firebase/sign up.dart';
 import 'package:firebase/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
