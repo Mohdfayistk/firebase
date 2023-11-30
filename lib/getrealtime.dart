@@ -12,6 +12,7 @@ class getrealtime extends StatefulWidget {
   @override
   State<getrealtime> createState() => _getrealtimeState();
 }
+
 final refDataInstance = FirebaseDatabase.instance.ref("post");
 
 class _getrealtimeState extends State<getrealtime> {
@@ -21,59 +22,149 @@ class _getrealtimeState extends State<getrealtime> {
       body: Padding(
         padding: EdgeInsets.only(left: 35.w, top: 150.h),
         child: FirebaseAnimatedList(
-
           query: refDataInstance,
-          itemBuilder: (BuildContext context, DataSnapshot snapshot, Animation<double> animation, int index) { return Container(
-            width: 100.w,
-            height: 130.h,
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            decoration:
-            BoxDecoration(border: Border.all(color: Colors.brown, width: 3)),child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(snapshot.children.first.value.toString(),  style: TextStyle(
-                color: Color(0xFF181725),
-                fontSize: 32.sp,
-                fontFamily: 'Gilroy-Medium',
-                fontWeight: FontWeight.w600,
-          ),),
-                SizedBox(height: 20.h,),
-                Row(
-                  children: [
-                    SizedBox(width: 50.w,),
-                    GestureDetector(onTap: (){
-                      ref
-                          .doc(snapshot.value.toString())
-                          .delete().then((value) => {ToastMessage().toastmessage(message: 'Deleted')})
-                          .onError((error, stackTrace) =>
-                          ToastMessage().toastmessage(message: error.toString()));
-
-                    },
-                      child: Container(
-                        width: 100.w,
-                        height: 30.h,
-                        decoration: ShapeDecoration(
-                          color: Colors.brown,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(19),
+          itemBuilder: (BuildContext context, DataSnapshot snapshot,
+              Animation<double> animation, int index) {
+            return Container(
+              width: 100.w,
+              height: 130.h,
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.brown, width: 3)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    snapshot.children.first.value.toString(),
+                    style: TextStyle(
+                      color: Color(0xFF181725),
+                      fontSize: 32.sp,
+                      fontFamily: 'Gilroy-Medium',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 50.w,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          ref
+                              .doc(snapshot.value.toString())
+                              .delete()
+                              .then((value) => {
+                                    ToastMessage()
+                                        .toastmessage(message: 'Deleted')
+                                  })
+                              .onError((error, stackTrace) => ToastMessage()
+                                  .toastmessage(message: error.toString()));
+                        },
+                        child: Container(
+                          width: 100.w,
+                          height: 30.h,
+                          decoration: ShapeDecoration(
+                            color: Colors.brown,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(19),
+                            ),
                           ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Delete',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFFFFF9FF),
-                              fontSize: 12.sp,
-                              fontFamily: 'Gilroy',
-                              fontWeight: FontWeight.w400,
+                          child: Center(
+                            child: Text(
+                              'Delete',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xFFFFF9FF),
+                                fontSize: 12.sp,
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 20.w,),
-                    Container(
+                      SizedBox(
+                        width: 20.w,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          dialogBox(
+                              index: index,
+                              id: snapshot.value.toString(),
+                              snapshot: snapshot);
+                        },
+                        child: Container(
+                          width: 100.w,
+                          height: 30.h,
+                          decoration: ShapeDecoration(
+                            color: Colors.brown,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(19),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'update',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xFFFFF9FF),
+                                fontSize: 12.sp,
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void dialogBox(
+      {required int index,
+      required String id,
+      required DataSnapshot snapshot}) {
+    final newValue = TextEditingController();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text(
+              'Update',
+              style:
+                  TextStyle(color: Colors.brown, fontWeight: FontWeight.bold),
+            ),
+            content: TextFormField(
+              controller: newValue,
+            ),
+            actions: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      ref.doc(snapshot.value.toString()).update({
+                        'title': newValue.text,
+                      }).then((value) {
+                        ToastMessage()
+                            .toastmessage(message: 'Updated Successfully');
+                        Navigator.of(context).pop();
+                      }).onError((error, stackTrace) {
+                        ToastMessage().toastmessage(message: error.toString());
+                      });
+                    },
+                    child: Container(
                       width: 100.w,
                       height: 30.h,
                       decoration: ShapeDecoration(
@@ -84,7 +175,7 @@ class _getrealtimeState extends State<getrealtime> {
                       ),
                       child: Center(
                         child: Text(
-                          'Delete',
+                          'update',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0xFFFFF9FF),
@@ -95,14 +186,11 @@ class _getrealtimeState extends State<getrealtime> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-          ); },
-
-        ),
-      ),
-    );
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
   }
 }

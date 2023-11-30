@@ -1,3 +1,4 @@
+import 'package:firebase/Imageupload.dart';
 import 'package:firebase/firestore.dart';
 import 'package:firebase/realtime.dart';
 import 'package:firebase/sign in.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: realtime()
+          home: Imageupload()
       );
     });}
 }
