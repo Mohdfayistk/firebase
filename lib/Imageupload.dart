@@ -12,7 +12,8 @@ class Imageupload extends StatefulWidget {
   @override
   State<Imageupload> createState() => _ImageuploadState();
 }
-final ImagePicker picker = ImagePicker();File? _image;
+final ImagePicker picker = ImagePicker();
+File? _image;
 firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage
     .instance;
 DatabaseReference databaseReference = FirebaseDatabase.instance.ref('post');
