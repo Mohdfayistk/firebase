@@ -1,4 +1,5 @@
 import 'package:firebase/firestore.dart';
+import 'package:firebase/forgotpassword.dart';
 import 'package:firebase/sign up.dart';
 import 'package:firebase/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -186,6 +187,25 @@ class _signinState extends State<signin> {
                  ),
                ),
              ),
+SizedBox(height: 20.h,),
+            GestureDetector(onTap: (){
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => forgotpassword()));
+            },
+              child: Padding(
+                padding:  EdgeInsets.only(left: 260.w),
+                child: Text('forgot password',
+                  style: TextStyle(
+                    color: Colors.brown,
+                    fontSize: 14,
+                    fontFamily: 'Gilroy',
+                    fontWeight: FontWeight.w600,
+                    height: 0.08,
+                    letterSpacing: 0.70,
+                  ),
+                ),
+              ),
+            ),
             SizedBox(height: 50.h,)
           ],
         ),

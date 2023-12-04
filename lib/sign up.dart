@@ -175,7 +175,7 @@ class _signupState extends State<signup> {
                 GestureDetector(onTap: ()async {
 
 
-
+                        print("hello");
                       await _googleSignIn.signIn().then((value) =>  Navigator.of(context)
                           .push(MaterialPageRoute(builder: (_) => home()))).onError((error, stackTrace) => ToastMessage()
                           .toastmessage(message: error.toString()));
